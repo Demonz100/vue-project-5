@@ -22,6 +22,11 @@ const router = createRouter({
       path: '/generate-pdf',
       name: 'generatePdf',
       component: () => import('../views/GeneratePDF.vue')
+    },
+    {
+      path: '/test-pdf',
+      name: 'testPdf',
+      component: () => import('../views/TestPDF.vue')
     }
   ]
 })
