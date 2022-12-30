@@ -119,21 +119,16 @@ export const exportSheet = (exportData: ExportSheet | ExportSheet[]) => {
     });
 
     exportData.slice(1).forEach((table) => {
-      const { data, sheetName, calcName, calcCol, calcFormula, calcResult } =
-        table;
-      const dataKeys = Object.keys(data[0]);
+      const { data } = table;
 
       const tempSheetTable: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
 
-      const sheetTable: XLSX.WorkSheet = XLSX.utils.sheet_to_json(
-        tempSheetTable,
-        { header: 1 }
-      );
+      const sheetTable: XLSX.WorkSheet = XLSX.utils.sheet_to_json(tempSheetTable, { header: 1 });
 
       workSheet = workSheet.concat([""]).concat(sheetTable);
     });
 
-    workSheet = XLSX.utils.aoa_to_sheet(workSheet, { skipHeader: true });
+    workSheet = XLSX.utils.json_to_sheet(workSheet, { skipHeader: true });
 
     const workBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(
@@ -141,7 +136,7 @@ export const exportSheet = (exportData: ExportSheet | ExportSheet[]) => {
       workSheet,
       exportData[0].sheetName || "Sheet1"
     );
-    
+
     XLSX.writeFile(workBook, `${exportData[0].sheetName}.xlsx`);
   }
 };
